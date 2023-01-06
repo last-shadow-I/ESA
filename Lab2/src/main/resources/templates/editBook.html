@@ -1,0 +1,23 @@
+<html lang="en" xmlns:th = "http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование</title>
+</head>
+<body>
+<form action="#" th:action="@{/books/edit}" method="post" th:object="${book}">
+    <input type="hidden" th:field = "*{bookId}">
+    <input th:field = "*{title}" placeholder="Название книги" class="form-control col-10" required><br>
+    <input th:field = "*{author}" placeholder="Автор" class="form-control col-10" required><br>
+    <input th:field = "*{publisher}"  placeholder="Издательство" class="form-control  col-4" required><br>
+    <input th:field = "*{yearOfPublication}"  placeholder="Год публикации" class="form-control  col-4" required><br>
+    <select th:field="*{libraryUser}">
+        <option th:value="null">В библиотеке</option>
+        <option th:each="el : ${users}" th:value="${el.getLibraryUserId()}" th:text="${el.getFullName()}">
+        </option>
+    </select>
+    <button type="submit">Редактировать</button>
+</form>
+</body>
+</html>

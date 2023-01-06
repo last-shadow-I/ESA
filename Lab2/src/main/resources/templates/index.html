@@ -1,0 +1,47 @@
+<html lang="en" xmlns:th = "http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Таблицы</title>
+</head>
+<body>
+
+<h2>Список книг</h2>
+<a th:href="@{/books/add}">Добавить </a>
+<table border="1" class="table table-stripped table-responsive-md">
+  <thead>
+  <tr>
+    <th>Название</th>
+    <th>Автор</th>
+    <th>Издательство</th>
+    <th>Год публикации</th>
+    <th>Находится</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each = "el: ${books}">
+    <td th:text = "${el.title}"></td>
+    <td th:text = "${el.author}"></td>
+    <td th:text = "${el.publisher}"></td>
+    <td th:text = "${el.yearOfPublication}"></td>
+    <td th:text = "${el.getPlace()}"></td>
+    <td> <a th:href="@{/books/edit(bookId=${el.getBookId()})}">Редактировать</a>
+      <a th:href="@{/books/remove(bookId=${el.getBookId()})}">Удалить</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<br>
+<h2>Список пользователей</h2>
+<a th:href="@{/users/add}">Добавить </a>
+<ol th:each = "el: ${users}">
+
+  <span th:text = "${el.toString()}"></span>
+  <a th:href="@{/users/edit(libraryUserId=${el.getLibraryUserId()})}">Редактировать</a> | <a th:href="@{/users/remove(libraryUserId=${el.getLibraryUserId()})}">Удалить</a>
+  <ol th:each = "book: ${el.getBooks()}">
+    <span th:text = "${book.getTitle()}"></span>
+  </ol>
+</ol>
+</body>
+</html>

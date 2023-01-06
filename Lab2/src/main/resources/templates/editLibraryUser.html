@@ -1,0 +1,18 @@
+<html lang="en" xmlns:th = "http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Добавление</title>
+</head>
+<body>
+<form action="#" th:action="@{/users/add}" method="post" th:object="${user}">
+    <input type="hidden" th:field = "*{libraryUserId}">
+    <input th:field = "*{fullName}" placeholder="Введите фамилию" class="form-control col-10" required><br>
+    <input th:field = "*{age}"  placeholder="Введите имя" class="form-control col-2"required><br>
+    <input th:field = "*{address}"  placeholder="Введите отчество" class="form-control  col-4" required><br>
+    <input th:field = "*{phoneNumber}"  placeholder="8**********" class="form-control  col-4" pattern="[8]{1}[0-9]{10}" required><br>
+    <button type="submit">Добавить</button>
+</form>
+</body>
+</html>

@@ -2,7 +2,7 @@ package com.example.lab2.controller;
 
 import com.example.lab2.model.Book;
 import com.example.lab2.repository.BookRepository;
-import com.example.lab2.repository.LibraryUserPepository;
+import com.example.lab2.repository.LibraryUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +19,7 @@ public class BookController {
     BookRepository bookRepository;
 
     @Autowired
-    LibraryUserPepository libraryUserPepository;
+    LibraryUserRepository libraryUserRepository;
 
     @GetMapping("/add")
     public String addBookGet(Model model){
@@ -36,9 +36,12 @@ public class BookController {
     @GetMapping("/edit")
     public String editBookGet(@RequestParam Long bookId, Model model){
         Optional<Book> bookOptional= bookRepository.findById(bookId);
-        Book book = bookOptional.get();
-        model.addAttribute("book", book);
-        model.addAttribute("users", libraryUserPepository.findAll());
+        if (bookOptional.isPresent())
+            model.addAttribute("book", bookOptional.get());
+        else
+            throw new RuntimeException("book not found. Id = " + bookId);
+
+        model.addAttribute("users", libraryUserRepository.findAll());
         return "editBook";
     }
 

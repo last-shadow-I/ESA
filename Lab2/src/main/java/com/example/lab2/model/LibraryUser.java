@@ -36,8 +36,8 @@ public class LibraryUser {
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "library_user_id", nullable = true)
+    //@JoinColumn(name = "library_user_id", nullable = true)
+    @OneToMany(mappedBy = "libraryUser")
     private List<Book> books;
 
     public LibraryUser(String fullName, Long age, String address, String phoneNumber) {
@@ -58,13 +58,11 @@ public class LibraryUser {
     public void addBook(Book book) {
         books.add(book);
         book.setLibraryUser(this);
-        book.setLibraryUserId(this.libraryUserId);
     }
 
     public void removeBook(Book book) {
         books.remove(book);
         book.setLibraryUser(null);
-        book.setLibraryUserId(null);
     }
 
     @Override

@@ -30,12 +30,8 @@ public class Book {
     @Column(name = "year_of_publication", nullable = false)
     private Long yearOfPublication;
 
-    @Basic()
-    @Column(name = "library_user_id", nullable = true)
-    private Long libraryUserId;
-
     @ManyToOne
-    @JoinColumn(name = "library_user_id", insertable = false, updatable = false, nullable = true)
+    @JoinColumn(name = "library_user_id", nullable = true)
     private LibraryUser libraryUser = null;
 
     public Book(String author, String title, String publisher, Long yearOfPublication, LibraryUser libraryUser) {
@@ -47,21 +43,11 @@ public class Book {
             libraryUser.addBook(this);
     }
 
-    public Long getLibraryUserId() {
-        return libraryUserId;
-    }
-
-    public void setLibraryUserId(Long libraryUserId) {
-        this.libraryUserId = libraryUserId;
-    }
-
     public void setLibraryUser(LibraryUser libraryUser){
         if (libraryUser != null){
             this.libraryUser = libraryUser;
-            this.libraryUserId = libraryUser.getLibraryUserId();
         }
         else{
-            this.libraryUserId = null;
             this.libraryUser= null;
         }
     }

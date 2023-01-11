@@ -1,7 +1,7 @@
 package com.example.lab2.controller;
 
 import com.example.lab2.model.LibraryUser;
-import com.example.lab2.repository.LibraryUserPepository;
+import com.example.lab2.repository.LibraryUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +15,7 @@ import java.util.Optional;
 public class LibraryUserController {
 
     @Autowired
-    LibraryUserPepository libraryUserPepository;
+    LibraryUserRepository libraryUserRepository;
 
     @GetMapping("/add")
     public String addLibraryUserGet(Model model){
@@ -24,12 +24,12 @@ public class LibraryUserController {
     }
     @PostMapping("/add")
     public String addLibraryUserPost(@ModelAttribute("user") LibraryUser libraryUser, BindingResult bindingResult){
-        libraryUserPepository.save(libraryUser);
+        libraryUserRepository.save(libraryUser);
         return "redirect:/";
     }
     @GetMapping("/edit")
     public String editLibraryUserGet(@RequestParam Long libraryUserId, Model model){
-        Optional<LibraryUser> optionalLibraryUser= libraryUserPepository.findById(libraryUserId);
+        Optional<LibraryUser> optionalLibraryUser= libraryUserRepository.findById(libraryUserId);
         LibraryUser libraryUser = optionalLibraryUser.get();
         model.addAttribute("user", libraryUser);
         return "editLibraryUser";
@@ -37,13 +37,13 @@ public class LibraryUserController {
     @PostMapping("/edit")
     public String editLibraryUserPost(@ModelAttribute("user") LibraryUser libraryUser, BindingResult bindingResult){
         if (!bindingResult.hasErrors())
-            libraryUserPepository.save(libraryUser);
+            libraryUserRepository.save(libraryUser);
         return "redirect:/";
     }
 
     @GetMapping("/remove")
     public String removeLibraryUserGet(@RequestParam Long libraryUserId){
-        libraryUserPepository.deleteById(libraryUserId);
+        libraryUserRepository.deleteById(libraryUserId);
         return "redirect:/";
     }
 }

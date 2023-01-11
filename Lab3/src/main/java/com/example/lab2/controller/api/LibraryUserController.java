@@ -46,35 +46,4 @@ public class LibraryUserController {
         libraryUserRepository.delete(libraryUser);
     }
 
-    //TODO Удалить комментарии
-
-//    @GetMapping("/add")
-//    public String addLibraryUserGet(Model model){
-//        model.addAttribute("user", new LibraryUser());
-//        return "addLibraryUser";
-//    }
-//    @PostMapping("/add")
-//    public String addLibraryUserPost(@ModelAttribute("user") LibraryUser libraryUser, BindingResult bindingResult){
-//        libraryUserRepository.save(libraryUser);
-//        return "redirect:/";
-//    }
-//    @GetMapping("/edit")
-//    public String editLibraryUserGet(@RequestParam Long libraryUserId, Model model){
-//        Optional<LibraryUser> optionalLibraryUser= libraryUserRepository.findById(libraryUserId);
-//        LibraryUser libraryUser = optionalLibraryUser.get();
-//        model.addAttribute("user", libraryUser);
-//        return "editLibraryUser";
-//    }
-//    @PostMapping("/edit")
-//    public String editLibraryUserPost(@ModelAttribute("user") LibraryUser libraryUser, BindingResult bindingResult){
-//        if (!bindingResult.hasErrors())
-//            libraryUserRepository.save(libraryUser);
-//        return "redirect:/";
-//    }
-//
-//    @GetMapping("/remove")
-//    public String removeLibraryUserGet(@RequestParam Long libraryUserId){
-//        libraryUserRepository.deleteById(libraryUserId);
-//        return "redirect:/";
-//    }
 }

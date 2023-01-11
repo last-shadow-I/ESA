@@ -36,8 +36,6 @@ public class LibraryUser {
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-
-    //TODO @JoinColumn(name = "library_user_id", nullable = true)
     @OneToMany(mappedBy = "libraryUser")
     private List<Book> books;
 

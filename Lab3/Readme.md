@@ -1,53 +1,87 @@
 # Lab2
 
-## Описание таблиц
-### В рамках данной ЛР были созданы 2 таблицы со связью "один ко многим". Первая таблица - пользователи библиотеки, вторая - книги. Одному пользователю может принадлежать несколько книг.
-<img src="https://user-images.githubusercontent.com/91950488/210408068-80d10ef3-a85a-403b-944a-4226cf0aebfb.png" width="256">   
+## Разработан REST API для доступа к данным БД
+```java   
+@RestController
+@RequestMapping(value = "/api/books", produces = {"application/json", "application/xml"})
+public class BookController {
 
-## Настройка БД  
-### Была выбрана БД PostgreSQL, подключение производилось с помощью указания БД в файле properties SpringApplication
-![image](https://user-images.githubusercontent.com/91950488/211518599-223f2518-1e08-4a23-948d-b991d8b80057.png)
+    @Autowired
+    BookRepository bookRepository;
 
-## Особенности реализации
-1. Для получения информации о том, какие книги есть у пользователя, и какому пользователю принадлежит конкретная книга, используются аннотации @OneToMany и @ManyToOne;
-2. Связь происходит по внешнему ключу в Book;
-3. Если этот внешний ключ - null, то считается, что книга не находится ни у одного из пользователей и лежит в библиотеке;
-4. Добавление и удаление связи между книгой и пользователем происходит через методы пользователя  ```addBook(Book book)``` и ```removeBook(Book book)```. Эти методы совершают 3 действия: добавялют / удаляют книгу в списке пользователя, а также устанавливают для этой книги владельца и его userID (в случае удаления выставляется null);
-5. У каждого пользователя отображаются книги, которые есть у него на руках в виде сдвинутого вправо столбца (без нумерации);
-6. На главной странице видна не вся информация о пользователе - это сделано специально, чтобы не загромождать интерфейс;
-7. Для каждой книги видно, у кого она на руках.
+    @Autowired
+    LibraryUserRepository libraryUserRepository;
 
-## Обзор интерфейса и работоспособности ЛР  
+    @GetMapping("/{id}")
+    public Book findById(@PathVariable Long id){
+        return bookRepository.findById(id).orElseThrow();
+    }
 
-### Вид главной страницы:  
-![image](https://user-images.githubusercontent.com/91950488/211519480-aa419348-16fc-45fc-b723-db156ee69358.png)  
+    @GetMapping("/all")
+    public List<Book> findAll(){
+        return bookRepository.findAll();
+    }
 
-### Добавление книги:    
-![image](https://user-images.githubusercontent.com/91950488/211519879-cc58e1ff-0994-4684-80c1-e05c25bb3220.png)    
+    @PostMapping("/edit")
+    public void edit(@RequestBody Book book){
+        bookRepository.saveAndFlush(book);
+    }
 
-### Добавилась строка с книгой:   
-![image](https://user-images.githubusercontent.com/91950488/211519967-9a0c6d77-e568-4709-bd9f-584b3fbec02a.png)  
+    @PostMapping("/add")
+    public Book add(@RequestBody Book book){
+        bookRepository.saveAndFlush(book);
+        return book;
+    }
 
-### Редактирование книги    
-![image](https://user-images.githubusercontent.com/91950488/211520399-50d85364-ac91-4432-a202-6eeca27c7dbe.png)
+    @DeleteMapping("/remove/{id}")
+    public void remove(@PathVariable Long id){
+        Book book = bookRepository.findById(id).orElseThrow();
+        bookRepository.delete(book);
+    }
+}   
+```
+```java
+@RestController
+@RequestMapping(value = "/api/users", produces = {"application/json", "application/xml"})
+public class LibraryUserController {
 
-### Изменилась строка с книгой:    
-![image](https://user-images.githubusercontent.com/91950488/211520693-44b6a481-68de-45d3-bc05-83aa02e00832.png) 
+    @Autowired
+    LibraryUserRepository libraryUserRepository;
 
-### Удаление книги    
-![image](https://user-images.githubusercontent.com/91950488/211520832-1a3e95db-973a-4840-8915-468dbba0a20a.png) 
+    @GetMapping("/{id}")
+    public LibraryUser findById(@PathVariable Long id){
+        return libraryUserRepository.findById(id).orElseThrow();
+    }
 
-### Добавление пользователя   
-![image](https://user-images.githubusercontent.com/91950488/211521946-31a44347-8f52-49d9-a525-382dd2c479e5.png)  
+    @GetMapping("/all")
+    public List<LibraryUser> findAll(){
+        return libraryUserRepository.findAll();
+    }
 
-### Появился 3 пользователь:   
-![image](https://user-images.githubusercontent.com/91950488/211522049-e71b67a3-44c4-4b1a-8fec-98d4c32f42e5.png)   
+    @PostMapping("/edit")
+    public void edit(@RequestBody LibraryUser libraryUser){
+        libraryUserRepository.saveAndFlush(libraryUser);
+    }
 
-### Добавление 2х книг третьему пользователю:      
-![image](https://user-images.githubusercontent.com/91950488/211522248-cfb07146-877f-49b3-908a-8ddfb8fb947f.png)
-![image](https://user-images.githubusercontent.com/91950488/211522278-2ba31e24-078c-44bf-a3f3-dfb3db9fdc16.png)
-![image](https://user-images.githubusercontent.com/91950488/211522338-782fcc50-8937-421a-8da8-1484230a4b3b.png)   
+    @PostMapping("/add")
+    public LibraryUser add(@RequestBody LibraryUser libraryUser){
+        libraryUserRepository.saveAndFlush(libraryUser);
+        return libraryUser;
+    }
 
-### Удаление пользователя    
-При удалении пользователя также меняется информация о том, где эта книга находится
-![image](https://user-images.githubusercontent.com/91950488/211522615-50c3797d-3993-4a3d-a886-61d6505be511.png)
+    @DeleteMapping("/remove/{id}")
+    public void remove(@PathVariable Long id){
+        LibraryUser libraryUser = libraryUserRepository.findById(id).orElseThrow();
+        libraryUserRepository.delete(libraryUser);
+    }
+
+}
+```
+## Реализована возможность получения как json, так и xml
+![image](https://user-images.githubusercontent.com/91950488/211855736-265fd8fd-8cb0-49c1-af79-c33ab3aaa5f5.png)  
+![image](https://user-images.githubusercontent.com/91950488/211856168-e316c9f3-3c16-4e90-b78f-1dbb9dc9fbc0.png)
+
+## Добавлены XSL шаблоны и реализован их парсинг
+![image](https://user-images.githubusercontent.com/91950488/211856692-6ecffcd3-f7ba-47c6-b752-ac40f0f8391a.png)
+![image](https://user-images.githubusercontent.com/91950488/211856748-29737a75-2a83-44d8-a042-3a7dc4100219.png)
+

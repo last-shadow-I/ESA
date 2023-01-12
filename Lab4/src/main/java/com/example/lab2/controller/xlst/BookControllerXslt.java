@@ -2,6 +2,7 @@ package com.example.lab2.controller.xlst;
 
 import com.example.lab2.model.Book;
 import com.example.lab2.repository.BookRepository;
+import com.example.lab2.service.BookService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,15 +19,15 @@ import java.util.List;
 @RequestMapping("/xslt/books")
 public class BookControllerXslt {
 
-    private BookRepository bookRepository;
+    private BookService bookService;
 
-    public BookControllerXslt(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
+    public BookControllerXslt(BookService bookService) {
+        this.bookService = bookService;
     }
 
     @GetMapping
     public ModelAndView get() throws JsonProcessingException {
-        List<Book> books = bookRepository.findAll();
+        List<Book> books = bookService.findAll();
 
         XmlMapper xmlMapper = new XmlMapper();
         String xml = xmlMapper.writeValueAsString(books);

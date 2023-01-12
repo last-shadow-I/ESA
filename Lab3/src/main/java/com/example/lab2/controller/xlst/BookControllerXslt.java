@@ -26,10 +26,10 @@ public class BookControllerXslt {
 
     @GetMapping
     public ModelAndView get() throws JsonProcessingException {
-        List<Book> animals = bookRepository.findAll();
+        List<Book> books = bookRepository.findAll();
 
         XmlMapper xmlMapper = new XmlMapper();
-        String xml = xmlMapper.writeValueAsString(animals);
+        String xml = xmlMapper.writeValueAsString(books);
 
         Source source = new StreamSource(new ByteArrayInputStream(xml.getBytes()));
         ModelAndView modelAndView = new ModelAndView("books");

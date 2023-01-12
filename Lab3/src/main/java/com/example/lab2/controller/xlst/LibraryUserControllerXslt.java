@@ -27,10 +27,10 @@ public class LibraryUserControllerXslt {
 
     @GetMapping
     public ModelAndView get() throws JsonProcessingException {
-        List<LibraryUser> animals = libraryUserRepository.findAll();
+        List<LibraryUser> libraryUsers = libraryUserRepository.findAll();
 
         XmlMapper xmlMapper = new XmlMapper();
-        String xml = xmlMapper.writeValueAsString(animals);
+        String xml = xmlMapper.writeValueAsString(libraryUsers);
 
         Source source = new StreamSource(new ByteArrayInputStream(xml.getBytes()));
         ModelAndView modelAndView = new ModelAndView("libraryUsers");

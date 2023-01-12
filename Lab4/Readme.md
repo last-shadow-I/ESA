@@ -33,4 +33,7 @@
 ![image](https://user-images.githubusercontent.com/91950488/212106057-aee954d7-6ad8-480e-a70f-051aba7cd2a6.png)
 ![image](https://user-images.githubusercontent.com/91950488/212106135-48a9c05e-2ffd-4a83-971e-84e340fefc55.png)
 
-### Для сущности "libraryUser" всё аналогично. 
+### Для сущности "libraryUser" всё аналогично.   
+
+### Проверена работа отправки уведомления на почту (отправитель и получатель совпадают)
+![image](https://user-images.githubusercontent.com/91950488/212121615-b1594c08-cea7-4550-9840-3a079c2f9fe1.png)
